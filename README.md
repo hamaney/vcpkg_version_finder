@@ -1,0 +1,1 @@
+# vcpkg_version_finder
