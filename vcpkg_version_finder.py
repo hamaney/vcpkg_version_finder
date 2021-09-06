@@ -41,7 +41,19 @@ with open(PKG_VERSION_JSON_PATHNAME) as f:
     pkg_versions_file = json.load(f)
     info_list = pkg_versions_file["versions"]
 
-    versions_list = [info["version-string"] for info in info_list]
+    versions_list = []
+    for info in info_list:
+        if "version-string" in info:
+            versions_list.append(info["version-string"])
+        elif "version" in info:
+            versions_list.append(info["version"])
+        elif "version-date" in info:
+            versions_list.append(info["version-date"])
+        elif "version-semver" in info:
+            versions_list.append(info["version-semver"])
+        else:
+            raise KeyError(info)
+                
     versions_set = sorted(set(versions_list), reverse=True)
 
     for version in versions_set:
